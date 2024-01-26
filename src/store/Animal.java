@@ -1,3 +1,4 @@
+package store;
 
 import store.interfaces.Animal_Preferences;
 

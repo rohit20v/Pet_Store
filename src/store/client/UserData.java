@@ -1,3 +1,5 @@
+package store.client;
+
 public class UserData {
     private int phoneNumber;
     private String email;

@@ -1,3 +1,4 @@
+package store.client;
 
 import store.interfaces.Description;
 
@@ -84,12 +85,12 @@ public class User implements Description {
 
     @Override
     public String toString() {
-        return "Store.Interfaces.User " +
+        return "Store.Interfaces.store.client.User " +
                "ID='" + getUserID() + '\'' +
                ", Name='" + name + '\'' +
-               ", Store.Interfaces.User Data=" + userData +
+               ", Store.Interfaces.store.client.User Data=" + userData +
                ", Unique Code=" + uniqueUserCode +
-               ", Description=" + getDescription();
+               ", store.interfaces.Description=" + getDescription();
     }
 }
 

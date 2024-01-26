@@ -1,10 +1,14 @@
+package store;
+
+import store.client.UserData;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         ArrayList<Pet> pets = new ArrayList<>();
-//        ArrayList<Store.Interfaces.User> users = new ArrayList<>();
+//        ArrayList<Store.Interfaces.store.client.User> users = new ArrayList<>();
         Pet pet;
         UserData data;
         Scanner scan = new Scanner(System.in);

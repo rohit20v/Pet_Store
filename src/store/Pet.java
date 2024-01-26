@@ -1,3 +1,4 @@
+package store;
 
 import store.interfaces.Description;
 
@@ -52,9 +53,9 @@ public class Pet extends Animal implements Description {
 
     @Override
     public String toString() {
-        return "Store.Interfaces.Pet ID= " + getPetID() + ", " +
+        return "Store.Interfaces.store.Pet ID= " + getPetID() + ", " +
                super.toString() +
-               ", Description='" + getDescription() + '\'' +
+               ", store.interfaces.Description='" + getDescription() + '\'' +
                ", Price=" + price +
                ", Can swim=" + canSwim;
     }
