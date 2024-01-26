@@ -53,9 +53,9 @@ public class Pet extends Animal implements Description {
 
     @Override
     public String toString() {
-        return "Store.Interfaces.store.Pet ID= " + getPetID() + ", " +
+        return "Pet ID= " + getPetID() + ", " +
                super.toString() +
-               ", store.interfaces.Description='" + getDescription() + '\'' +
+               ", Description='" + getDescription() + '\'' +
                ", Price=" + price +
                ", Can swim=" + canSwim;
     }

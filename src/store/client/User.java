@@ -85,12 +85,12 @@ public class User implements Description {
 
     @Override
     public String toString() {
-        return "Store.Interfaces.store.client.User " +
+        return "User " +
                "ID='" + getUserID() + '\'' +
                ", Name='" + name + '\'' +
-               ", Store.Interfaces.store.client.User Data=" + userData +
+               ", User Data=" + userData +
                ", Unique Code=" + uniqueUserCode +
-               ", store.interfaces.Description=" + getDescription();
+               ", Description=" + getDescription();
     }
 }
 
