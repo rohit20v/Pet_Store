@@ -3,7 +3,7 @@ package store.client;
 import store.interfaces.Description;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 public class User implements Description {
@@ -13,7 +13,7 @@ public class User implements Description {
     private UserData userData;
     private String userDescription;
     private final String uniqueUserCode;
-    private final ArrayList<String> codes = new ArrayList<>();
+    private static final ArrayList<String> codes = new ArrayList<>();
 
     public User(String name, UserData userData) throws Exception {
         user_num++;
@@ -25,6 +25,10 @@ public class User implements Description {
 
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public String getUniqueUserCode() {
+        return uniqueUserCode;
     }
 
     public UserData getUserData() {
@@ -53,9 +57,7 @@ public class User implements Description {
 
     @Override
     public String getDescription() {
-        if (userDescription.isEmpty()) {
-            return "None";
-        } else return userDescription;
+        return Objects.requireNonNullElse(userDescription, "None");
     }
 
     @Override
@@ -65,22 +67,18 @@ public class User implements Description {
 
     private String generateUniqueCode() {
         Random random = new Random();
-        String[] code = new String[5];
+        String code = "";
         String[] letters = "1234567890qwertyuiopasdfghklzxcvbnmllkQWERTYUIOPASDFGHJKLZXCVBNM/*-#@_".split("");
         while (true) {
-            for (int i = 0; i < code.length; i++) {
-                code[i] = letters[random.nextInt(letters.length)];
+            for (int i = 0; i < 6; i++) {
+                code += letters[random.nextInt(letters.length)];
             }
-            if (!codes.contains(Arrays.toString(code))) {
-                codes.add(Arrays.toString(code));
+            if (!codes.contains(code)) {
+                codes.add(code);
                 break;
             }
         }
-        return Arrays.toString(code);
-    }
-
-    private void deleteUser(){
-
+        return code;
     }
 
     @Override

@@ -1,28 +1,30 @@
 package store;
 
+import org.apache.commons.validator.EmailValidator;
+import store.client.User;
 import store.client.UserData;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("       Welcome to Pezoo            ");
         ArrayList<Pet> pets = new ArrayList<>();
-//        ArrayList<Store.Interfaces.store.client.User> users = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>();
         Pet pet;
         UserData data;
+        User user;
+        HashMap<User, ArrayList<Pet>> user_pet = new HashMap<>();
         Scanner scan = new Scanner(System.in);
         int c;
         do {
             while (true) {
                 try {
-                    System.out.println("1) to add animals:\n2) to buy animals:\n3) to terminate the program:");
+                    System.out.println("0) to terminate the program:\n1) to add animals:\n2) to buy animals:\n3) to buy some food for your pet:");
                     c = scan.nextInt();
                     scan.nextLine();
                     if (c >= 0 && c <= 3) {
-                        if (c == 2 && pets.isEmpty()) {
-                            System.out.println("You must add some animals first.");
-                        } else break;
+                        break;
                     } else System.out.println("Invalid input! Please enter a number that's given down there:");
                 } catch (Exception e) {
                     scan.nextLine();
@@ -83,19 +85,22 @@ public class Main {
                     } while (!m.equalsIgnoreCase("n"));
                     break;
                 case 2:
+                    if (pets.isEmpty()) {
+                        System.out.println("You must add some animals first.");
+                        break;
+                    }
                     System.out.println("--------------------------------");
                     System.out.println("Animals:");
                     pets.forEach(p -> System.out.println(p.getType()));
                     System.out.println("Select an animal you're interested in:");
                     String selectedAnimal;
+                    boolean found = false;
                     while (true) {
                         selectedAnimal = scan.nextLine();
-
                         if (selectedAnimal.matches(".*\\d.*")) {
                             System.out.println("Please select an animal from the list given up there:");
                             continue;
                         }
-                        boolean found = false;
                         for (Pet animal : pets) {
                             if (selectedAnimal.equalsIgnoreCase(animal.getType())) {
                                 System.out.println(animal);
@@ -106,61 +111,148 @@ public class Main {
                             break;
                         } else System.out.println("Please select an animal from the list given up there:");
                     }
-                    System.out.println("You must have an account to go further\n        Register Now!\n1) Register.\n2E)Exit");
-                    int r;
-                    while (true) {
-                        try {
-                            r = scan.nextInt();
-                            scan.nextLine();
-                            break;
-                        } catch (Exception e) {
-                            scan.nextLine();
-                            System.out.println("Invalid input!\n1) Register.\n2)Exit");
+                    Pet tempPet = null;
+                    ArrayList<Pet> tempList = new ArrayList<>();
+                    int id;
+                    do {
+                        System.out.println("Enter the ID of the animal you want you buy or enter 0 to exit:");
+                        while (true) {
+                            try {
+                                id = scan.nextInt();
+                                scan.nextLine();
+                                break;
+                            } catch (Exception e) {
+                                scan.nextLine();
+                                System.out.println("Enter a valid number: ");
+                            }
                         }
-                    }
-                    if (r == 2) {
-                        System.out.println("Goodbye!");
-                        break;
-                    }
-                    System.out.println("Enter your name:");
-                    String name;
-                    while (true) {
-                        name = scan.nextLine();
-                        if (name.matches(".*\\d.*")) {
-                            System.out.println("Invalid input!\nA name must contain only alphabets");
-                        } else break;
+                        found = false;
+                        if (id == 0) break;
+                        for (Pet animal : pets) {
+                            if (id == animal.getPetID()) {
+                                System.out.println(animal);
+                                try {
+                                    tempPet = (Pet) animal.clone();
+                                    found = true;
+                                    break;
+                                } catch (CloneNotSupportedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+                        if (!found) System.out.println("Please enter the valid ID:");
+                    } while (!found);
+
+                    int r;
+                    while (id != 0) {
+                        System.out.println("You must login to go further\n1)Login\n2)Register\n3)Exit");
+                        while (true) {
+                            try {
+                                r = scan.nextInt();
+                                scan.nextLine();
+                                break;
+                            } catch (Exception e) {
+                                scan.nextLine();
+                                System.out.println("Invalid input");
+                            }
+                        }
+                        if (r == 3) {
+                            System.out.println("Goodbye!");
+                            break;
+                        }
+                        if (r == 1) {
+                            if (users.isEmpty()) {
+                                System.out.println("No account has been registered yet!");
+                            } else {
+                                System.out.println("Enter your email:");
+                                String email = scan.nextLine();
+                                System.out.println("Enter your account's unique code:");
+                                String password = scan.nextLine();
+                                found = false;
+                                for (User u : users) {
+                                    if (u.getUserData().getEmail().equals(email) && u.getUniqueUserCode().equals(password)) {
+                                        System.out.println("Welcome " + u.getName() + "!");
+                                        found = true;
+                                        tempList.add(tempPet);
+                                        user_pet.put(u, tempList);
+                                        for (Map.Entry<User, ArrayList<Pet>> entry : user_pet.entrySet()) {
+                                            System.out.println("User: " + entry.getKey().getName() + " --> Pet: ");
+                                            entry.getValue().forEach(o -> {
+                                                System.out.println(o.getPetID() + " - " + o.getType() + " - " + o.getBreed());
+                                            });
+                                            if (tempPet != null) {
+                                                tempPet.pet_num_manager(pets, tempPet.getPetID());
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                                if (!found) {
+                                    System.out.println("Invalid email or code!!!");
+                                } else break;
+                            }
+                        } else if (r == 2) {
+                            System.out.println("Enter your name:");
+                            String name;
+                            while (true) {
+                                name = scan.nextLine();
+                                if (name.matches(".*\\d.*")) {
+                                    System.out.println("Invalid input!\nA name must contain only alphabets");
+                                } else break;
+                            }
+                            System.out.println("Enter your phone number:");
+                            int num;
+                            while (true) {
+                                try {
+                                    num = scan.nextInt();
+                                    scan.nextLine();
+                                    if (Integer.toString(num).length() != 10)
+                                        System.out.println("Invalid phone number!\nPlease insert a valid phone number");
+                                    else break;
+                                } catch (Exception e) {
+                                    scan.nextLine();
+                                    System.out.println("Invalid phone number!\nPlease insert a valid phone number");
+                                }
+                            }
+                            System.out.println("Enter your email address:");
+                            String email;
+                            while (true) {
+                                try {
+                                    email = scan.nextLine();
+                                    EmailValidator validator = EmailValidator.getInstance();
+                                    if (validator.isValid(email)) {
+                                        System.out.println(email);
+                                        break;
+                                    } else {
+                                        throw new InputMismatchException();
+                                    }
+                                } catch (Exception e) {
+                                    scan.nextLine();
+                                    System.out.println("Invalid email!\nPlease insert a valid email;");
+                                }
+                            }
+                            try {
+                                data = new UserData(num, email);
+                                user = new User(name, data);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                            System.out.println("\nEnter Y if you would like to add a description about yourself\nPress any other key/keys to continue");
+                            if (scan.nextLine().equalsIgnoreCase("y")) {
+                                System.out.println("Enter a description:");
+                                user.setDescription(scan.nextLine());
+                            }
+                            System.out.println("Your account has been registered successfully:\n" + user + "\nN.B. Use the unique code as your password to login :)");
+
+                            users.add(user);
+                        } else System.out.println("Invalid input!");
                     }
                     break;
                 case 3:
-                    int num;
-                    try {
-                        while (true) {
-                            try {
-                                num = scan.nextInt();
-                                scan.nextLine();
-                                if (Integer.toString(num).length() != 10)
-                                    System.out.println("Invalid phone number!\nPlease insert a valid phone number");
-                                else break;
-                            } catch (Exception e) {
-                                scan.nextLine();
-                                System.out.println("Invalid phone number!\nPlease insert a valid phone number");
-                            }
-                        }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    String email;
-                    try {
-
-                    }catch (Exception e) {
-                        scan.nextLine();
-                    }
                     break;
             }
         } while (c != 0);
     }
-
-
 
     private static AnimalInfo getResult(Scanner scan) {
         System.out.println("Enter the age of the animal:(Int)");

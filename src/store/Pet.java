@@ -2,7 +2,9 @@ package store;
 
 import store.interfaces.Description;
 
-public class Pet extends Animal implements Description {
+import java.util.ArrayList;
+
+public class Pet extends Animal implements Description, Cloneable{
     private final int petID;
     private static int pet_num;
     private String description;
@@ -14,6 +16,11 @@ public class Pet extends Animal implements Description {
         this.price = price;
         Pet.pet_num += 1;
         this.petID = pet_num;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     public static int getPet_num() {
@@ -60,6 +67,11 @@ public class Pet extends Animal implements Description {
                ", Can swim=" + canSwim;
     }
 
+    public void pet_num_manager(ArrayList<Pet> p, int id) {
+        if(p.removeIf(o -> o.getPetID() == id)){
+            Pet.pet_num -= 1;
+        }
+    }
     public int getPetID() {
         return petID;
     }
