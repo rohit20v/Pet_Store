@@ -3,6 +3,8 @@ package store;
 import org.apache.commons.validator.EmailValidator;
 import store.client.User;
 import store.client.UserData;
+import store.server.FoodAndAccessories;
+import store.server.Pet;
 
 import java.util.*;
 
@@ -11,6 +13,7 @@ public class Main {
         System.out.println("       Welcome to Pezoo            ");
         ArrayList<Pet> pets = new ArrayList<>();
         ArrayList<User> users = new ArrayList<>();
+        HashMap<String, Integer> productBought = new HashMap<>();
         Pet pet;
         UserData data;
         User user;
@@ -20,10 +23,10 @@ public class Main {
         do {
             while (true) {
                 try {
-                    System.out.println("0) to terminate the program:\n1) to add animals:\n2) to buy animals:\n3) to buy some food for your pet:");
+                    System.out.println("0) to terminate the program:\n1) to add animals:\n2) to buy animals:\n3) to buy \n4) to have a look on the data:");
                     c = scan.nextInt();
                     scan.nextLine();
-                    if (c >= 0 && c <= 3) {
+                    if (c >= 0 && c <= 4) {
                         break;
                     } else System.out.println("Invalid input! Please enter a number that's given down there:");
                 } catch (Exception e) {
@@ -112,7 +115,6 @@ public class Main {
                         } else System.out.println("Please select an animal from the list given up there:");
                     }
                     Pet tempPet = null;
-                    ArrayList<Pet> tempList = new ArrayList<>();
                     int id;
                     do {
                         System.out.println("Enter the ID of the animal you want you buy or enter 0 to exit:");
@@ -173,13 +175,11 @@ public class Main {
                                     if (u.getUserData().getEmail().equals(email) && u.getUniqueUserCode().equals(password)) {
                                         System.out.println("Welcome " + u.getName() + "!");
                                         found = true;
-                                        tempList.add(tempPet);
-                                        user_pet.put(u, tempList);
+                                        user_pet.computeIfAbsent(u, k -> new ArrayList<>());
+                                        user_pet.get(u).add(tempPet);
                                         for (Map.Entry<User, ArrayList<Pet>> entry : user_pet.entrySet()) {
-                                            System.out.println("User: " + entry.getKey().getName() + " --> Pet: ");
-                                            entry.getValue().forEach(o -> {
-                                                System.out.println(o.getPetID() + " - " + o.getType() + " - " + o.getBreed());
-                                            });
+                                            System.out.println("User: " + entry.getKey().getName() + " owns: ");
+                                            entry.getValue().forEach(o -> System.out.println(o.getPetID() + ") " + o.getType() + ", bread " + o.getBreed()));
                                             if (tempPet != null) {
                                                 tempPet.pet_num_manager(pets, tempPet.getPetID());
                                             }
@@ -249,6 +249,91 @@ public class Main {
                     }
                     break;
                 case 3:
+                    System.out.println("Here you can buy accessories and food for your pet :)");
+                    int food_acc = 0;
+                    do {
+                        System.out.println("1) to check for the food in the catalog.\n2) to check for the accessory in the catalog.\n3) to enter the name of the product you want to buy\n4) to go back on the previous menu:");
+                        System.out.println("--------------------------------------------------------");
+                        try {
+                            food_acc = scan.nextInt();
+                            scan.nextLine();
+                            if (food_acc == 1) {
+                                for (FoodAndAccessories item : FoodAndAccessories.values()) {
+                                    if (item.getStuff().equals("food")) System.out.println(item.name());
+                                }
+                                System.out.println("--------------------------------------------------------");
+                            }
+                            if (food_acc == 2) {
+                                for (FoodAndAccessories item : FoodAndAccessories.values()) {
+                                    if (item.getStuff().equals("accessory")) System.out.println(item.name());
+                                }
+                                System.out.println("--------------------------------------------------------");
+                            }
+                            if (food_acc == 3) {
+                                System.out.println("Enter the name of the product you want to buy:");
+                                String stuffName = scan.nextLine();
+                                boolean stuffFound = false;
+                                for (FoodAndAccessories item : FoodAndAccessories.values()) {
+                                    if (stuffName.equalsIgnoreCase(item.name())) {
+                                        stuffFound = true;
+                                        break;
+                                    }
+                                }
+                                int quantity;
+                                while (stuffFound) {
+                                    System.out.println("Enter the number of products you want to buy:");
+                                    try {
+                                        quantity = scan.nextInt();
+                                        scan.nextLine();
+                                        if (quantity > 0) {
+                                            stuffFound = false;
+                                            if(productBought.containsKey(stuffName)) {
+                                                productBought.merge(stuffName, quantity, Integer::sum);
+                                            }
+                                            productBought.putIfAbsent(stuffName, quantity);
+                                            System.out.println("You've successfully bought " + stuffName);
+                                            break;
+                                        }
+                                    } catch (Exception e) {
+                                        scan.nextLine();
+                                        System.out.println("Invalid input [MUST PROVIDE AN INT]");
+                                    }
+                                }
+                                System.out.println("--------------------------------------------------------");
+                            }
+                        } catch (Exception e) {
+                            scan.nextLine();
+                            System.out.println("Invalid input!");
+                        }
+                    } while (food_acc != 4);
+                    break;
+                case 4:
+                    int f = 0;
+                    do {
+                        System.out.println("1) to check the animals:\n2) to check the clients:\n3) to check the sells\n4) to go back to the main menu:");
+                        try {
+                            f = scan.nextInt();
+                            scan.nextLine();
+                            if (f == 4) break;
+                            if (f == 1) {
+                                if (pets.isEmpty()) System.out.println("No animals are available");
+                                pets.forEach(System.out::println);
+                                System.out.println("-----------------------------");
+                            } else if (f == 2) {
+                                if (users.isEmpty()) System.out.println("No user has registered yet");
+                                users.forEach(System.out::println);
+                                System.out.println("-----------------------------");
+                            } else if (f == 3) {
+                                if (productBought.isEmpty()) System.out.println("No product has been bought yet");
+                                for (Map.Entry<String, Integer> s: productBought.entrySet()){
+                                    System.out.println("Product: " + s.getKey() + ", Quantity: " + s.getValue());
+                                }
+                                System.out.println("-----------------------------");
+                            }
+                        } catch (Exception e) {
+                            scan.nextLine();
+                        }
+                    } while (f > 0 && f <= 4);
                     break;
             }
         } while (c != 0);
@@ -261,7 +346,7 @@ public class Main {
             try {
                 animalAge = scan.nextInt();
                 scan.nextLine();
-                break;
+                if (animalAge > 0) break;
             } catch (Exception e) {
                 scan.nextLine();
                 System.out.println("Please enter the valid age:(Int)");
@@ -273,7 +358,7 @@ public class Main {
             try {
                 animalWeight = scan.nextFloat();
                 scan.nextLine();
-                break;
+                if (animalWeight > 0) break;
             } catch (Exception e) {
                 scan.nextLine();
                 System.out.println("Please enter weight:(Int-Float)");
@@ -285,7 +370,7 @@ public class Main {
             try {
                 animalHeight = scan.nextInt();
                 scan.nextLine();
-                break;
+                if (animalHeight > 0) break;
             } catch (Exception e) {
                 scan.nextLine();
                 System.out.println("Please enter the valid height:(Int)");
@@ -297,7 +382,7 @@ public class Main {
             try {
                 animalPrice = scan.nextDouble();
                 scan.nextLine();
-                break;
+                if (animalPrice > 0) break;
             } catch (Exception e) {
                 scan.nextLine();
                 System.out.println("Please enter the valid price:(Int-Double)");

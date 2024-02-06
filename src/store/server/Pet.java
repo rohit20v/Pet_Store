@@ -1,4 +1,4 @@
-package store;
+package store.server;
 
 import store.interfaces.Description;
 
@@ -19,7 +19,7 @@ public class Pet extends Animal implements Description, Cloneable{
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 

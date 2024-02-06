@@ -1,6 +1,8 @@
-package store;
+package store.server;
 
 import store.interfaces.Animal_Preferences;
+
+import java.util.Objects;
 
 public abstract class Animal implements Animal_Preferences {
 
@@ -17,6 +19,19 @@ public abstract class Animal implements Animal_Preferences {
         this.age = age;
         this.weight = weight;
         this.height = height;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+        return age == animal.age && Float.compare(weight, animal.weight) == 0 && height == animal.height && Objects.equals(type, animal.type) && Objects.equals(breed, animal.breed) && Objects.equals(favFood, animal.favFood);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     public String getType() {

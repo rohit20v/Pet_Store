@@ -1,5 +1,7 @@
 package store.client;
 
+import java.util.Objects;
+
 public class UserData {
     private int phoneNumber;
     private String email;
@@ -7,8 +9,21 @@ public class UserData {
     public UserData(int phoneNumber, String email) throws Exception {
         setPhoneNumber(phoneNumber);
         setEmail(email);
-
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserData userData = (UserData) o;
+        return phoneNumber == userData.phoneNumber && Objects.equals(email, userData.email);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
     public int getPhoneNumber() {
         return phoneNumber;
     }

@@ -23,6 +23,11 @@ public class User implements Description {
         this.uniqueUserCode = generateUniqueCode();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
