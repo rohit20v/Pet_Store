@@ -23,7 +23,7 @@ public class Main {
         do {
             while (true) {
                 try {
-                    System.out.println("0) to terminate the program:\n1) to add animals:\n2) to buy animals:\n3) to buy \n4) to have a look on the data:");
+                    System.out.println("0) to terminate the program:\n1) to add animals:\n2) to buy animals:\n3) to buy accessories for you animal: \n4) to have a look on the data:");
                     c = scan.nextInt();
                     scan.nextLine();
                     if (c >= 0 && c <= 4) {
@@ -146,7 +146,7 @@ public class Main {
                     } while (!found);
 
                     int r;
-                    while (id != 0) {
+                    while (true) {
                         System.out.println("You must login to go further\n1)Login\n2)Register\n3)Exit");
                         while (true) {
                             try {
@@ -178,8 +178,8 @@ public class Main {
                                         user_pet.computeIfAbsent(u, k -> new ArrayList<>());
                                         user_pet.get(u).add(tempPet);
                                         for (Map.Entry<User, ArrayList<Pet>> entry : user_pet.entrySet()) {
-                                            System.out.println("User: " + entry.getKey().getName() + " owns: ");
-                                            entry.getValue().forEach(o -> System.out.println(o.getPetID() + ") " + o.getType() + ", bread " + o.getBreed()));
+                                            System.out.print("User: " + entry.getKey().getName() + " owns: ");
+                                            entry.getValue().forEach(o -> System.out.println(o.getPetID() + ") " + o.getType() + ", breed " + o.getBreed()));
                                             if (tempPet != null) {
                                                 tempPet.pet_num_manager(pets, tempPet.getPetID());
                                             }
@@ -227,7 +227,6 @@ public class Main {
                                         throw new InputMismatchException();
                                     }
                                 } catch (Exception e) {
-                                    scan.nextLine();
                                     System.out.println("Invalid email!\nPlease insert a valid email;");
                                 }
                             }
@@ -279,6 +278,9 @@ public class Main {
                                         break;
                                     }
                                 }
+                                if (!stuffFound) {
+                                    System.out.println("Product not found");
+                                }
                                 int quantity;
                                 while (stuffFound) {
                                     System.out.println("Enter the number of products you want to buy:");
@@ -287,7 +289,7 @@ public class Main {
                                         scan.nextLine();
                                         if (quantity > 0) {
                                             stuffFound = false;
-                                            if(productBought.containsKey(stuffName)) {
+                                            if (productBought.containsKey(stuffName)) {
                                                 productBought.merge(stuffName, quantity, Integer::sum);
                                             }
                                             productBought.putIfAbsent(stuffName, quantity);
@@ -325,7 +327,7 @@ public class Main {
                                 System.out.println("-----------------------------");
                             } else if (f == 3) {
                                 if (productBought.isEmpty()) System.out.println("No product has been bought yet");
-                                for (Map.Entry<String, Integer> s: productBought.entrySet()){
+                                for (Map.Entry<String, Integer> s : productBought.entrySet()) {
                                     System.out.println("Product: " + s.getKey() + ", Quantity: " + s.getValue());
                                 }
                                 System.out.println("-----------------------------");
@@ -339,6 +341,11 @@ public class Main {
         } while (c != 0);
     }
 
+    /**
+     * Retrieves information about an animal from user input.
+     *
+     * @return An AnimalInfo object containing age, weight, height, and price.
+     */
     private static AnimalInfo getResult(Scanner scan) {
         System.out.println("Enter the age of the animal:(Int)");
         int animalAge;
@@ -391,6 +398,14 @@ public class Main {
         return new AnimalInfo(animalAge, animalWeight, animalHeight, animalPrice);
     }
 
+    /**
+     * Represents information about an animal.
+     *
+     * @param animalAge
+     * @param animalWeight
+     * @param animalHeight
+     * @param animalPrice
+     */
     private record AnimalInfo(int animalAge, float animalWeight, int animalHeight, double animalPrice) {
     }
 }
