@@ -3,9 +3,10 @@ package store.client;
 import java.util.Objects;
 
 /**
- * @author Rohit Verma
  * Represents user data containing phone number and email.
- * This class provides methods to set and retrieve user information.
+ *  This class provides methods to set and retrieve user information.
+ * @author Rohit Verma
+ *
  */
 public class UserData {
     private int phoneNumber;

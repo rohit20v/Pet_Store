@@ -5,9 +5,9 @@ import store.interfaces.Animal_Preferences;
 import java.util.Objects;
 
 /**
- * @author Rohit Verma
  * Represents an abstract animal with various properties.
  * Implements interface {@link Animal_Preferences}.
+ * @author Rohit Verma
  */
 public abstract class Animal implements Animal_Preferences {
     /**

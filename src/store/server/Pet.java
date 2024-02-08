@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * @author Rohit Verma
  * Represents a Pet in the store.
  * Extends the Animal class and implements the interface {@link Description} and Clonable.
+ * @author Rohit Verma
  */
 public class Pet extends Animal implements Description, Cloneable {
     /**

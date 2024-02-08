@@ -3,6 +3,7 @@ package store.interfaces;
 /**
  * Represents an interface for providing descriptions.
  * Implementing classes should define methods to get and set descriptions.
+ * @author Rohit Verma
  */
 public interface Description {
     /**

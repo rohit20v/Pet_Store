@@ -7,9 +7,9 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
- * @author Rohit Verma
  * Represents a User with various variables/attributes.
  * Implements the interface {@link Description}.
+ * @author Rohit Verma
  */
 public class User implements Description {
     /**
@@ -24,7 +24,7 @@ public class User implements Description {
     private static final ArrayList<String> codes = new ArrayList<>();
 
     /**
-     * Constructs a User object with various variables/attributes.x
+     * Constructs a User object with various variables/attributes.
      *
      * @param name     User's name.
      * @param userData User's data: phone number and email address.'
@@ -59,27 +59,57 @@ public class User implements Description {
         return super.clone();
     }
 
+    /**
+     * Gets the user's unique code.
+     *
+     * @return The unique user code.
+     */
     public String getUniqueUserCode() {
         return uniqueUserCode;
     }
 
+    /**
+     * Gets the user's data: phone number and email from {@link UserData}.
+     *
+     * @return The user's data.
+     */
     public UserData getUserData() {
         return userData;
     }
 
+    /**
+     * Gets the user's name.
+     *
+     * @return The name of the user.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the user's ID.
+     *
+     * @return The ID.
+     */
     public int getUserID() {
         return userID;
     }
 
+    /**
+     * Gets the user's description.
+     *
+     * @return The description.
+     */
     @Override
     public String getDescription() {
         return Objects.requireNonNullElse(userDescription, "None");
     }
 
+    /**
+     * Sets the user's description.
+     *
+     * @param description The description to set.
+     */
     @Override
     public void setDescription(String description) {
         this.userDescription = description;
