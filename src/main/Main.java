@@ -25,6 +25,9 @@ public class Main {
 
         // Create a scanner for user input
         Scanner scan = new Scanner(System.in);
+
+        // Regex pattern that to check whether a string contains characters such as / * - etc.
+        String regex = "^[a-zA-Z0-9 ]*$";
         int c;
 
         // Main menu loop
@@ -56,8 +59,8 @@ public class Main {
                                 String animalType;
                                 animalType = scan.nextLine();
 
-                                // Validate that the input doesn't contain digits
-                                if (animalType.matches(".*\\d.*")) {
+                                // Validate that the input doesn't contain digits and characters such as # / * etc...
+                                if (animalType.matches(".*\\d.*") || !animalType.matches(regex)) {
                                     System.out.println("Enter a valid animal.");
                                     continue;
                                 }
@@ -66,10 +69,10 @@ public class Main {
                                 System.out.println("Enter the animal's breed(Example: cat: ragdoll):");
                                 String animalBreed;
 
-                                // Validate that the input doesn't contain digits
+                                // Validate that the input doesn't contain digits and characters such as # / * etc...
                                 while (true) {
                                     animalBreed = scan.nextLine();
-                                    if (animalBreed.matches(".*\\d.*")) {
+                                    if (animalBreed.matches(".*\\d.*")  || !animalBreed.matches(regex)) {
                                         System.out.println("Please enter a valid breed:");
                                     } else break;
                                 }
@@ -264,7 +267,7 @@ public class Main {
                                 name = scan.nextLine();
 
                                 // If the name contains any digits, print an error message
-                                if (name.matches(".*\\d.*")) {
+                                if (name.matches(".*\\d.*") || !name.matches(regex)) {
                                     System.out.println("Invalid input!\nA name must contain only alphabets");
                                 } else break;
                             }
