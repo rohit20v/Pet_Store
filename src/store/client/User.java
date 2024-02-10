@@ -39,6 +39,17 @@ public class User implements Description {
     }
 
     /**
+     * Creates a new `User` object.
+     * This constructor increments the user count, assigns a unique user ID,
+     * and generates a unique user code.
+     */
+    public User(){
+        user_num++;
+        this.userID = user_num;
+        this.uniqueUserCode = generateUniqueCode();
+    }
+
+    /**
      * Checks if this `UserData` object is equal to another object.
      *
      * @param obj The object to compare with.

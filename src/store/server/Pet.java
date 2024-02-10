@@ -7,7 +7,7 @@ import java.util.Objects;
 
 /**
  * Represents a Pet in the store.
- * Extends the Animal class and implements the interface {@link Description} and Clonable.
+ * Extends the Animal class and implements the interface {@link Description} and Cloneable.
  * @author Rohit Verma
  */
 public class Pet extends Animal implements Description, Cloneable {
@@ -34,6 +34,23 @@ public class Pet extends Animal implements Description, Cloneable {
     public Pet(String name, String breed, int age, float weight, int height, double price) throws Exception {
         super(name, breed, age, weight, height);
         this.price = price;
+        Pet.pet_num += 1;
+        this.petID = pet_num;
+    }
+
+
+    /**
+     * Creates a new `Pet` object with the attributes inherited from the parent class.
+     *
+     * @param name    The name of the pet.
+     * @param breed   The breed of the pet.
+     * @param age     The age of the pet.
+     * @param weight  The weight of the pet (in kilograms).
+     * @param height  The height of the pet (in centimeters).
+     * @throws Exception If any exceptional condition occurs during initialization.
+     */
+    public Pet(String name, String breed, int age, float weight, int height) throws Exception{
+        super(name, breed, age, weight, height);
         Pet.pet_num += 1;
         this.petID = pet_num;
     }
@@ -92,6 +109,15 @@ public class Pet extends Animal implements Description, Cloneable {
     public String getDescription() {
         if (this.description == null) return "None";
         else return description;
+    }
+
+
+    /**
+     * Increments the total number of pets.
+     * This method is used to update the count of pets.
+     */
+    public static void setPet_num() {
+        Pet.pet_num += 1;
     }
 
     /**
@@ -161,6 +187,11 @@ public class Pet extends Animal implements Description, Cloneable {
         }
     }
 
+    /**
+     * Gets the ID of the pet.
+     *
+     * @return The pet's ID.
+     */
     public int getPetID() {
         return petID;
     }

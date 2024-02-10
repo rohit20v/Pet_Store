@@ -25,6 +25,13 @@ public class UserData {
     }
 
     /**
+     * Creates a new `UserData` object.
+     * This constructor initializes an instance of the `UserData` class.
+     * Use this constructor when no specific attributes need to be set initially.
+     */
+    public UserData(){}
+
+    /**
      * Checks if this `UserData` object is equal to another object.
      *
      * @param o The object to compare with.

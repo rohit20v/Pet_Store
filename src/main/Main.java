@@ -243,8 +243,8 @@ public class Main {
 
                                         // Print all the pets owned by each user
                                         for (Map.Entry<User, ArrayList<Pet>> entry : user_pet.entrySet()) {
-                                            System.out.print("User: " + entry.getKey().getName() + " owns: ");
-                                            entry.getValue().forEach(o -> System.out.println("Pet ID: " + o.getPetID() + ") " + o.getType() + ": Breed " + o.getBreed()));
+                                            System.out.println("User: " + entry.getKey().getName() + " owns: ");
+                                            entry.getValue().forEach(o -> System.out.println("Pet) " + o.getType() + ", Breed: " + o.getBreed()));
                                             if (tempPet != null) {
                                                 tempPet.pet_num_manager(pets, tempPet.getPetID());
                                             }
