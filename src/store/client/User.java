@@ -150,17 +150,25 @@ public class User implements Description, Interact {
         return code;
     }
 
-
+    /**
+     * Pet the pet.
+     */
     @Override
     public void pet() {
         System.out.println("You've petted your pet!");
     }
 
+    /**
+     * Feed the pet.
+     */
     @Override
     public void feed() {
         System.out.println("You've fed your pet!");
     }
 
+    /**
+     * Play with the pet.
+     */
     @Override
     public void play() {
         System.out.println("You're playing with your pet!");
