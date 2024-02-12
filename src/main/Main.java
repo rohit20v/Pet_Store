@@ -72,7 +72,7 @@ public class Main {
                                 // Validate that the input doesn't contain digits and characters such as # / * etc...
                                 while (true) {
                                     animalBreed = scan.nextLine();
-                                    if (animalBreed.matches(".*\\d.*")  || !animalBreed.matches(regex)) {
+                                    if (animalBreed.matches(".*\\d.*") || !animalBreed.matches(regex)) {
                                         System.out.println("Please enter a valid breed:");
                                     } else break;
                                 }
@@ -228,7 +228,8 @@ public class Main {
                                 System.out.println("Enter your account's unique code:");
                                 String password = scan.nextLine();
                                 found = false;
-
+                                String confirmation;
+                                User tmpUser = new User();
                                 // Iterate over the list of users
                                 for (User u : users) {
 
@@ -236,25 +237,49 @@ public class Main {
                                     if (u.getUserData().getEmail().equals(email) && u.getUniqueUserCode().equals(password)) {
                                         System.out.println("Welcome " + u.getName() + "!");
 
-                                        // Set 'found' to true
+                                        System.out.println("Enter yes to confirm the purchase:");
+                                        confirmation = scan.nextLine();
                                         found = true;
-                                        user_pet.computeIfAbsent(u, k -> new ArrayList<>());
-                                        user_pet.get(u).add(tempPet);
+                                        if (confirmation.equalsIgnoreCase("yes")) {
+                                            // Set 'found' to true{
+                                            user_pet.computeIfAbsent(u, k -> new ArrayList<>());
+                                            user_pet.get(u).add(tempPet);
+                                            tmpUser = u;
 
-                                        // Print all the pets owned by each user
-                                        for (Map.Entry<User, ArrayList<Pet>> entry : user_pet.entrySet()) {
-                                            System.out.println("User: " + entry.getKey().getName() + " owns: ");
-                                            entry.getValue().forEach(o -> System.out.println("Pet) " + o.getType() + ", Breed: " + o.getBreed()));
-                                            if (tempPet != null) {
-                                                tempPet.pet_num_manager(pets, tempPet.getPetID());
+                                            // Print all the pets owned by each user
+                                            for (Map.Entry<User, ArrayList<Pet>> entry : user_pet.entrySet()) {
+                                                System.out.println("User: " + entry.getKey().getName() + " owns: ");
+                                                entry.getValue().forEach(o -> System.out.println("Pet Id: " + o.getPetID() + ", Type: " + o.getType() + ", Breed: " + o.getBreed()));
+                                                if (tempPet != null) {
+                                                    tempPet.pet_num_manager(pets, tempPet.getPetID());
+                                                }
                                             }
                                         }
+
                                         break;
                                     }
                                 }
-
-                                // If no user was found with the entered email and unique code, print an error message
-                                if (!found) {
+                                // If a user has bought any pet, it is allowed to interact with the pet.
+                                if (user_pet.containsKey(tmpUser)) {
+                                    while (true) {
+                                        System.out.println("--------------------------------------------------------");
+                                        System.out.println("Enter 1 to pet your pet.\nEnter 2 to feed your pet.\nEnter 3 to play with your pet.\nEnter anything else to go back to the previous menu.");
+                                        try {
+                                            int interaction = scan.nextInt();
+                                            scan.nextLine();
+                                            if (interaction == 1) {
+                                                tmpUser.pet();
+                                            } else if (interaction == 2) {
+                                                tmpUser.feed();
+                                            } else if (interaction == 3) {
+                                                tmpUser.play();
+                                            } else throw new Exception();
+                                        } catch (Exception e) {
+                                            System.out.println("Previous menu:");
+                                            break;
+                                        }
+                                    }
+                                } else if (!found) {
                                     System.out.println("Invalid email or code!!!");
                                 } else break;
                             }
@@ -271,7 +296,7 @@ public class Main {
                                     System.out.println("Invalid input!\nA name must contain only alphabets");
                                 } else break;
                             }
-                            System.out.println("Enter your phone number:");
+                            System.out.println("Enter your phone number: (10 digits long)");
                             int num;
 
                             // Start a loop to validate the input
@@ -282,7 +307,7 @@ public class Main {
 
                                     // If the number is not exactly 10 digits long, print an error message
                                     if (Integer.toString(num).length() != 10)
-                                        System.out.println("Invalid phone number!\nPlease insert a valid phone number");
+                                        System.out.println("Invalid phone number!\nPlease insert a valid phone number (10 digits long)");
                                     else break;
                                 } catch (Exception e) {
                                     scan.nextLine();
@@ -364,7 +389,7 @@ public class Main {
                                 System.out.println("--------------------------------------------------------");
                             }
 
-                            // If the user chose to enter the name of the product they want to buy (food_acc == 3)
+                            // If the user chose to enter the name of the product, they want to buy (food_acc == 3)
                             if (food_acc == 3) {
                                 System.out.println("Enter the name of the product you want to buy:");
                                 String stuffName = scan.nextLine();
@@ -472,7 +497,8 @@ public class Main {
             try {
                 animalAge = scan.nextInt();
                 scan.nextLine();
-                if (animalAge > 0) break;
+                if (animalAge <= 0) System.out.println("Please enter the valid age:(Int)");
+                else break;
             } catch (Exception e) {
                 scan.nextLine();
                 System.out.println("Please enter the valid age:(Int)");
@@ -484,7 +510,8 @@ public class Main {
             try {
                 animalWeight = scan.nextFloat();
                 scan.nextLine();
-                if (animalWeight > 0) break;
+                if (animalWeight <= 0) System.out.println("Please enter weight:(Int-Float)");
+                else break;
             } catch (Exception e) {
                 scan.nextLine();
                 System.out.println("Please enter weight:(Int-Float)");
@@ -496,7 +523,8 @@ public class Main {
             try {
                 animalHeight = scan.nextInt();
                 scan.nextLine();
-                if (animalHeight > 0) break;
+                if (animalHeight <= 0) System.out.println("Please enter the valid height:(Int)");
+                else break;
             } catch (Exception e) {
                 scan.nextLine();
                 System.out.println("Please enter the valid height:(Int)");
@@ -508,7 +536,8 @@ public class Main {
             try {
                 animalPrice = scan.nextDouble();
                 scan.nextLine();
-                if (animalPrice > 0) break;
+                if (animalPrice <= 0) System.out.println("Please enter the valid price:(Int-Double)");
+                else break;
             } catch (Exception e) {
                 scan.nextLine();
                 System.out.println("Please enter the valid price:(Int-Double)");
