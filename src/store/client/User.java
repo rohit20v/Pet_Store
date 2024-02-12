@@ -1,6 +1,7 @@
 package store.client;
 
 import store.interfaces.Description;
+import store.interfaces.Interact;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -8,10 +9,10 @@ import java.util.Random;
 
 /**
  * Represents a User with various variables/attributes.
- * Implements the interface {@link Description}.
+ * Implements the interface {@link Description} and {@link Interact}.
  * @author Rohit Verma
  */
-public class User implements Description {
+public class User implements Description, Interact {
     /**
      * Class variables/attributes and methods
      */
@@ -149,10 +150,27 @@ public class User implements Description {
         return code;
     }
 
+
+    @Override
+    public void pet() {
+        System.out.println("You've petted your pet!");
+    }
+
+    @Override
+    public void feed() {
+        System.out.println("You've fed your pet!");
+    }
+
+    @Override
+    public void play() {
+        System.out.println("You're playing with your pet!");
+    }
+
     /**
      * Returns a string representation of this User object.
      *
-     * @return A formatted string containing User ID, name, phone number, email, unique code (password) and description(if empty contains None).
+     * @return A formatted string containing User ID, name, phone number, email, unique code (password) and description
+     * (if empty contains None).
      */
     @Override
     public String toString() {
@@ -163,5 +181,6 @@ public class User implements Description {
                ", Unique Code=" + uniqueUserCode +
                ", Description=" + getDescription();
     }
+
 }
 
