@@ -1,5 +1,5 @@
 School Project on Animals
-> [!TIP]
+> [!IMPORTANT]
 > Link to the presentation: [Pezoos](https://docs.google.com/presentation/d/1EXACS58cUkxmJNk-Sjobpll4VF5ENN8sYRjf71hFX7I/edit?usp=sharing)
 
 * User is provided with a unique code after registration that is used as the password to log back in.
